@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мой Telegram WebApp</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      background-color: #2AABEE;
-      color: white;
-      cursor: pointer;
-    }
-  </style>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <title>Заявка WebApp</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <h2>Привет из WebApp!</h2>
-  <p>Ваш Telegram ID: <strong id="user_id">Загрузка...</strong></p>
-  <button onclick="sendData()">Отправить данные боту</button>
-
-  <script>
-    const tg = window.Telegram.WebApp;
-    document.getElementById("user_id").textContent = tg.initDataUnsafe?.user?.id || "Неизвестно";
-
-    function sendData() {
-      tg.sendData("Пользователь нажал кнопку!");
-      tg.close();
-    }
-
-    tg.expand(); // чтобы интерфейс занял весь экран
-  </script>
+    <h2>Новая заявка</h2>
+    <form id="reqForm">
+        <input name="customer" placeholder="ФИО/адрес" required><br>
+        <input name="date_start" type="date" placeholder="Дата начала"><br>
+        <input name="date_end" type="date" placeholder="Дата окончания"><br>
+        <input name="item_count" type="number" placeholder="Количество изделий"><br>
+        <textarea name="wishes" placeholder="Пожелания"></textarea><br>
+        <button type="submit">Отправить</button>
+    </form>
+    <script>
+        const tg = window.Telegram.WebApp;
+        document.getElementById('reqForm').onsubmit = function(e){
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(this));
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        };
+        tg.expand();
+    </script>
 </body>
 </html>
