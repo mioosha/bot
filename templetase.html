@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мой Telegram WebApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #2AABEE;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <h2>Привет из WebApp!</h2>
+  <p>Ваш Telegram ID: <strong id="user_id">Загрузка...</strong></p>
+  <button onclick="sendData()">Отправить данные боту</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    document.getElementById("user_id").textContent = tg.initDataUnsafe?.user?.id || "Неизвестно";
+
+    function sendData() {
+      tg.sendData("Пользователь нажал кнопку!");
+      tg.close();
+    }
+
+    tg.expand(); // чтобы интерфейс занял весь экран
+  </script>
+</body>
+</html>
